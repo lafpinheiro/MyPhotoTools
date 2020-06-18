@@ -425,9 +425,9 @@ Public Class MainForm
                      strPhrase = strPhrase.Substring(0, 10).Replace(":", "-") + strPhrase.Substring(10).Replace(":", ".")
                      Dim dthDateTaken As Date = DateSerial(strPhrase.Substring(0, 4), strPhrase.Substring(5, 2), strPhrase.Substring(8, 2)).AddHours(strPhrase.Substring(11, 2)).AddMinutes(strPhrase.Substring(14, 2)).AddSeconds(strPhrase.Substring(17, 2))
 
-                     If cmbRenameMethod.SelectedItem.ToString.Substring(0, 4) = "01.0" Then ' Date and Time Taken ("yyyy-mm-dd hh.mm.ss")
+                     If cmbRenameMethod.SelectedItem.value = RenameMethod.UseDateTakenMetadataWithTime Then
                         strNewName = strPath + "\" + dthDateTaken.ToString("yyyy-MM-dd HH.mm.ss") 'strPhrase
-                     ElseIf cmbRenameMethod.SelectedItem.ToString.Substring(0, 4) = "01.1" Then ' Data Taken ("yyyy-mm-dd")
+                     ElseIf cmbRenameMethod.SelectedItem.value = RenameMethod.UseDateTakenMetadataWithTime Then
                         strNewName = strPath + "\" + dthDateTaken.ToString("yyyy-MM-dd") 'strPhrase
                      End If
                      Exit For
