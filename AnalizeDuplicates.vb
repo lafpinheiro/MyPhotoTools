@@ -2,55 +2,20 @@
 Imports System.Collections.Generic
 Imports System.IO
 Imports Microsoft.WindowsAPICodePack.Shell
+Imports System.Linq
 
-Public Enum RenameMethod As Integer
-    <Description("No pattern")>
-    NoPattern = 0
-    <Description("Use Date and Time from Exif metadata 'yyyy-mm-dd hh.mm.ss'")>
-    UseDateTakenMetadataWithTime = 1
-    <Description("Use Date from Exif metadata 'yyyy-mm-dd'")>
-    UseDateTakenMetadataWithoutTime = 2
-    <Description("Use Date and Time from file attribute 'yyyy-mm-dd hh.mm.ss'")>
-    UseDateAndTimeFromFileAttribute = 3
-    <Description("Format 'yyyymmddhhmmss' -> 'yyyy-mm-dd hh.mm.ss'")>
-    InsertDashesAndDotsAndAddSeparator = 4
-    <Description("Format 'yyyymmdd_hhmmss' -> 'yyyy-mm-dd hh.mm.ss'")>
-    InsertDashesAndDotsAndChangeSeparator = 5
-    <Description("Format 'yyyy-mm-dd_hhmmss' -> 'yyyy-mm-dd hh.mm.ss'")>
-    InsertDotsInTimeAndChangeSeparator = 6
-    <Description("Format 'yyyy-mm-dd hh mm ss' -> 'yyyy-mm-dd hh.mm.ss'")>
-    InsertDotsInTime = 7
-    <Description("Format 'dd-mm-yy' -> 'yyyy-mm-dd'")>
-    ChangeFormatOfExistingDate = 8
-    <Description("Remove first 19 characters 'yyyy-mm-dd hh.mm.ss'")>
-    RemoveFirst19Characters = 9
-    <Description("For .M2TS e .MODD files - Decrease by 6:45h 'yyyyMMddHHmmss' (Hardcoded)")>
-    ChangeVideoFiles = 10
-End Enum
-
-Enum ChangeDateTakenMetadataMethod As Integer
-    FromFileName = 0
-    FromSpecificDate = 1
-    IncrementingHours = 2
-End Enum
-
-Public Class MainForm
+Public Class AnalizeDuplicate
 
     Private Sub MainForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim RenameMethodList As New List(Of Object)
-        For Each EnumValue In [Enum].GetValues(GetType(RenameMethod))
-            Dim strDescription As String = GetEnumDescription(EnumValue)
-            RenameMethodList.Add(New With {.Value = EnumValue, .Description = strDescription})
-        Next
+
         cmbRenameMethod.DisplayMember = "Description"
         cmbRenameMethod.ValueMember = "Value"
-        cmbRenameMethod.DataSource = RenameMethodList
 
         Dim FolderSettingValue As Object
         FolderSettingValue = My.Settings.Folder 'Retrieve Setting from AppData windows folder
         'FolderSettingValue = ReadSetting("Folder")
         If Not FolderSettingValue Is Nothing Then
-            txtFolder.Text = FolderSettingValue.ToString
+            txtFolder1.Text = FolderSettingValue.ToString
             btnListFiles_Click(sender, e)
         End If
     End Sub
@@ -65,22 +30,53 @@ Public Class MainForm
 
 #Region "Parameters"
 
-    Private Sub btnLocateFolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLocateFolder.Click
-        If System.IO.Directory.Exists(txtFolder.Text) Then
-            FolderBrowserDialog.SelectedPath = txtFolder.Text
+    Private Sub btnLocateFolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLocateFolder1.Click
+        If System.IO.Directory.Exists(txtFolder1.Text) Then
+            FolderBrowserDialog.SelectedPath = txtFolder1.Text
         End If
         FolderBrowserDialog.ShowDialog()
-        txtFolder.Text = FolderBrowserDialog.SelectedPath
+        txtFolder1.Text = FolderBrowserDialog.SelectedPath
+    End Sub
+
+    Private Sub btnLocateFolder2_Click(sender As Object, e As EventArgs) Handles btnLocateFolder2.Click
+        If System.IO.Directory.Exists(txtFolder2.Text) Then
+            FolderBrowserDialog.SelectedPath = txtFolder2.Text
+        End If
+        FolderBrowserDialog.ShowDialog()
+        txtFolder2.Text = FolderBrowserDialog.SelectedPath
     End Sub
 
     Private Sub btnClearFiles_Click(sender As Object, e As EventArgs) Handles btnClearFiles.Click
         lvwFiles.Items.Clear()
     End Sub
 
+    Private Function GetCreateDate(fileName As String) As String
+        Dim returnValue As String
+        Try
+            Dim Shell As ShellObject = ShellObject.FromParsingName(fileName)
+            Dim Data = Shell.Properties.System.Media.DateEncoded
+            returnValue = CDate(Data.Value).ToString("yyyy-MM-dd hh.mm.ss")
+        Catch ex As Exception
+            returnValue = ex.Message
+        End Try
+
+        Return returnValue
+    End Function
+
+    Function GetFileNameOnlyWithoutExtension(fullFileName As String) As String
+        Dim fileName As String = ""
+
+        Dim fileNameStart As Integer = fullFileName.LastIndexOf("\") + 1
+        Dim extensionStart As Integer = fullFileName.LastIndexOf(".") + 1
+        fileName = fullFileName.Substring(fileNameStart, fullFileName.Length - (fileNameStart + (fullFileName.Length - extensionStart) + 1))
+
+        Return fileName
+    End Function
+
     Private Sub btnListFiles_Click(sender As Object, e As EventArgs) Handles btnListFiles.Click
         Try
             'Save in config file
-            My.Settings.Folder = txtFolder.Text
+            My.Settings.Folder = txtFolder1.Text
             My.Settings.Save()
             'AddUpdateAppSettings("Folder", txtFolder.Text)
 
@@ -90,39 +86,78 @@ Public Class MainForm
             lvwFiles.Columns.Add("File")
             lvwFiles.Columns.Add("DateTaken")
 
-            If Not System.IO.Directory.Exists(txtFolder.Text) Then
-                Throw New Exception("Folder '" + txtFolder.Text + "' does not exist.")
+            If Not System.IO.Directory.Exists(txtFolder1.Text) Then
+                Throw New Exception("Folder '" + txtFolder1.Text + "' does not exist.")
+            End If
+            If Not System.IO.Directory.Exists(txtFolder2.Text) Then
+                Throw New Exception("Folder '" + txtFolder2.Text + "' does not exist.")
             End If
 
-            Dim strFiles As String() = System.IO.Directory.GetFiles(txtFolder.Text)
-            Dim strFile As String
             Dim Lvi As ListViewItem
 
-            For Each strFile In strFiles
-                Lvi = New ListViewItem(strFile)
-                Lvi.SubItems.Add(strFile)
+            Dim filesInFolder1 As String() = System.IO.Directory.GetFiles(txtFolder1.Text)
+            Dim filesInFolder2 As String() = System.IO.Directory.GetFiles(txtFolder2.Text)
+
+            Dim files1 As List(Of String) = filesInFolder1.Where(Function(x) x.ToUpper().EndsWith("." + txtExt1.Text.ToUpper())).Select(Function(x) GetFileNameOnlyWithoutExtension(x)).ToList()
+            Dim files2 As List(Of String) = filesInFolder2.Where(Function(x) x.ToUpper().EndsWith("." + txtExt2.Text.ToUpper())).Select(Function(x) GetFileNameOnlyWithoutExtension(x)).ToList()
+
+            Dim intersect As List(Of String) = files1.Where(Function(x) files2.Any(Function(y) y = x)).ToList()
+
+            Dim fileName As String
+            For Each file In intersect
+
+                fileName = txtFolder1.Text + "\" + file + "." + txtExt1.Text
+                Lvi = New ListViewItem(fileName)
+                Lvi.SubItems.Add("")
                 Lvi.SubItems.Add("")
                 lvwFiles.Items.Add(Lvi)
+
+                fileName = txtFolder2.Text + "\" + file + "." + txtExt2.Text
+                Lvi = New ListViewItem(fileName)
+                Lvi.SubItems.Add("")
+                Lvi.SubItems.Add("")
+                lvwFiles.Items.Add(Lvi)
+
             Next
-            lvwFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
             Application.DoEvents()
 
-            Dim strPhrase As String
-            For Each Lvi In lvwFiles.Items
-                strFile = Lvi.Text
-                strPhrase = ""
+            lvwFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
 
-                If strFile.ToUpper().EndsWith(".JPG") Or strFile.ToUpper().EndsWith(".JPEG") Or strFile.ToUpper().EndsWith(".PNG") Then
+        Catch ex As Exception
+            MsgBox(ex.Message.ToString, vbExclamation)
+        End Try
+    End Sub
+
+    Private Sub btnReadProps_Click(sender As Object, e As EventArgs) Handles btnReadProps.Click
+        If lvwFiles.SelectedItems.Count = 0 Then
+            MsgBox("Please, select at least on file from the list.", vbExclamation)
+            Exit Sub
+        End If
+
+        lstLog.Items.Clear()
+        progressBar.Value = 0
+        progressBar.Maximum = lvwFiles.SelectedItems.Count - 1
+
+        Dim fileName As String
+        Dim propValue As String
+        Dim Lvi As ListViewItem
+
+        Try
+            For Each Lvi In lvwFiles.SelectedItems
+                fileName = Lvi.Text
+                propValue = ""
+
+                If fileName.ToUpper().EndsWith(".JPG") Or fileName.ToUpper().EndsWith(".JPEG") Or fileName.ToUpper().EndsWith(".PNG") Then
                     Dim Img As System.Drawing.Image
                     Try
-                        Img = System.Drawing.Image.FromFile(strFile)
+                        Img = System.Drawing.Image.FromFile(fileName)
 
-                        If strPhrase = "" Then
+                        If propValue = "" Then
                             Dim intIndex As Integer
                             For intIndex = 0 To Img.PropertyIdList.Length - 1 'For Debug
                                 If Img.PropertyIdList(intIndex) = 36867 Then 'Exif.Photo.DateTimeOriginal
-                                    strPhrase = System.Text.Encoding.ASCII.GetString(Img.PropertyItems(intIndex).Value, 0, Img.PropertyItems(intIndex).Value.Length - 1)
-                                    strPhrase = strPhrase.Substring(0, 10).Replace(":", "-") + strPhrase.Substring(10).Replace(":", ".")
+                                    propValue = System.Text.Encoding.ASCII.GetString(Img.PropertyItems(intIndex).Value, 0, Img.PropertyItems(intIndex).Value.Length - 1)
+                                    propValue = propValue.Substring(0, 10).Replace(":", "-") + propValue.Substring(10).Replace(":", ".")
                                     Exit For
                                 End If
                             Next
@@ -130,29 +165,88 @@ Public Class MainForm
                         End If
 
                     Catch ex As Exception
-                        strPhrase = ex.Message
+                        propValue = ex.Message
                     End Try
 
-                ElseIf strFile.ToUpper().EndsWith(".MOV") Or strFile.ToUpper().EndsWith(".MP4") Then
+                ElseIf fileName.ToUpper().EndsWith(".MOV") Or fileName.ToUpper().EndsWith(".MP4") Then
                     Try
-                        Dim Shell As ShellObject = ShellObject.FromParsingName(strFile)
+                        Dim Shell As ShellObject = ShellObject.FromParsingName(fileName)
                         Dim Data = Shell.Properties.System.Media.DateEncoded
-                        strPhrase = CDate(Data.Value).ToString("yyyy-MM-dd hh.mm.ss")
+                        propValue = CDate(Data.Value).ToString("yyyy-MM-dd hh.mm.ss")
                     Catch ex As Exception
-                        strPhrase = ex.Message
+                        propValue = ex.Message
                     End Try
 
                 Else
-                    strPhrase = "Unexpected file type."
+                    propValue = "Unexpected file type."
                 End If
 
-                Lvi.SubItems(1).Text = strPhrase
+                Lvi.SubItems(1).Text = propValue
+
+
+                lblProgress.Text = progressBar.Value.ToString + "/" + progressBar.Maximum.ToString
+                progressBar.Increment(1)
                 Application.DoEvents()
             Next
             lvwFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
 
         Catch ex As Exception
-            MsgBox(ex.Message.ToString, vbExclamation)
+            MsgBox(ex.Message, vbExclamation)
+        End Try
+    End Sub
+
+    Private Sub btnLocateMoveToFolder_Click(sender As Object, e As EventArgs) Handles btnLocateMoveToFolder.Click
+        If System.IO.Directory.Exists(txtMoveToFolder.Text) Then
+            FolderBrowserDialog.SelectedPath = txtMoveToFolder.Text
+        End If
+        FolderBrowserDialog.ShowDialog()
+        txtMoveToFolder.Text = FolderBrowserDialog.SelectedPath
+    End Sub
+
+    Private Sub btnMoveToFolder_Click(sender As Object, e As EventArgs) Handles btnMoveToFolder.Click
+        If lvwFiles.SelectedItems.Count = 0 Then
+            MsgBox("Please, select at least on file from the list.", vbExclamation)
+            Exit Sub
+        End If
+
+        If Not System.IO.Directory.Exists(txtMoveToFolder.Text) Then
+            MsgBox("Please, inform a valid destination folder.", vbExclamation)
+            Exit Sub
+
+        End If
+
+        lstLog.Items.Clear()
+        progressBar.Value = 0
+        progressBar.Maximum = lvwFiles.SelectedItems.Count - 1
+
+        Dim fileName As String
+        Dim propValue As String
+        Dim Lvi As ListViewItem
+
+        Try
+            For Each Lvi In lvwFiles.SelectedItems
+                fileName = Lvi.Text
+                propValue = ""
+
+                If fileName.ToUpper().EndsWith("." + txtExt2.Text.ToUpper()) Then
+
+                    Dim newfile = txtMoveToFolder.Text + "\" + fileName.Substring(fileName.LastIndexOf("\") + 1)
+                    If Not chkPreviewOnly.Checked Then
+                        System.IO.File.Move(fileName, newfile)
+                    End If
+
+                    lstLog.Items.Add(fileName + " moved to " + newfile)
+
+                End If
+
+                lblProgress.Text = progressBar.Value.ToString + "/" + progressBar.Maximum.ToString
+                progressBar.Increment(1)
+                Application.DoEvents()
+            Next
+            lvwFiles.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent)
+
+        Catch ex As Exception
+            MsgBox(ex.Message, vbExclamation)
         End Try
     End Sub
 
@@ -192,7 +286,7 @@ Public Class MainForm
         'Else
         '  MessageBox.Show("not found");
 
-        Dim Str_NovoNome As String = txtFolder.Text + "\Arqmast.mas"
+        Dim Str_NovoNome As String = txtFolder1.Text + "\Arqmast.mas"
         If System.IO.File.Exists(Str_NovoNome) Then
             'Dim Str_TodoConteudo as String = IO.File.ReadAllText(Str_NovoNome)
             Dim oStream As New System.IO.StreamReader(Str_NovoNome)
@@ -213,7 +307,7 @@ Public Class MainForm
     End Sub
 
     Private Sub Btn_AtualizaIndiceMaster_Click() Handles btnIndexUpdateMasterIndex.Click
-        Dim Str_NovoNome As String = txtFolder.Text + "\Arqmast.mas"
+        Dim Str_NovoNome As String = txtFolder1.Text + "\Arqmast.mas"
         'If Not System.IO.File.Exists(Str_NovoNome) Then
         'End If
 
@@ -551,19 +645,15 @@ Public Class MainForm
             If Not chkPreviewOnly.Checked Then
                 If System.IO.File.Exists(strNewName) Then
                     If chkChangeFileDateAppend2InRepeated.Checked Then
-
-                        Dim numTries As Integer = 2
-                        Do While numTries < 10
-                            Dim Str_Nome2 As String
-                            Str_Nome2 = strNewName.Substring(0, strNewName.Length - (strExtension.Length + 1)) + " " + numTries.ToString() + "." + strExtension
-
+                        Dim Str_Nome2 As String
+                        Str_Nome2 = strNewName.Substring(0, strNewName.Length - (strExtension.Length + 1)) + " 2." + strExtension
+                        If chkChangeFileDateAppend2ExistingFile.Checked Then
                             If Not System.IO.File.Exists(Str_Nome2) Then
-                                strNewName = Str_Nome2
-                                Exit Do
+                                System.IO.File.Move(strNewName, Str_Nome2)
                             End If
-                            numTries += 1
-                        Loop
-
+                        Else
+                            strNewName = Str_Nome2
+                        End If
                     End If
                 End If
                 If Not System.IO.File.Exists(strNewName) Then
@@ -740,4 +830,10 @@ Public Class MainForm
     Private Sub chkActionChangeFileDate_CheckedChanged(sender As Object, e As EventArgs) Handles chkActionChangeFileDate.CheckedChanged
         chkChangeTimeFile.Enabled = chkActionChangeFileDate.Checked
     End Sub
+
+    Private Sub SplitContainer1_Panel2_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel2.Paint
+
+    End Sub
+
+
 End Class

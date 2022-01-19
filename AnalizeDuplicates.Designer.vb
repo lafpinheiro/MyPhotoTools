@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class MainForm
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class AnalizeDuplicate
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,12 +20,12 @@ Partial Class MainForm
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.btnLocateFolder = New System.Windows.Forms.Button()
+        Me.btnLocateFolder1 = New System.Windows.Forms.Button()
         Me.btnListFiles = New System.Windows.Forms.Button()
         Me.lblFolder = New System.Windows.Forms.Label()
-        Me.txtFolder = New System.Windows.Forms.TextBox()
+        Me.txtFolder1 = New System.Windows.Forms.TextBox()
         Me.FolderBrowserDialog = New System.Windows.Forms.FolderBrowserDialog()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.progressBar = New System.Windows.Forms.ProgressBar()
@@ -96,6 +96,17 @@ Partial Class MainForm
         Me.dtpIndexSearchStartDate = New System.Windows.Forms.DateTimePicker()
         Me.lstLog = New System.Windows.Forms.ListBox()
         Me.lblProgress = New System.Windows.Forms.Label()
+        Me.lblExt1 = New System.Windows.Forms.Label()
+        Me.txtExt1 = New System.Windows.Forms.TextBox()
+        Me.lblExt2 = New System.Windows.Forms.Label()
+        Me.txtExt2 = New System.Windows.Forms.TextBox()
+        Me.btnReadProps = New System.Windows.Forms.Button()
+        Me.btnMoveToFolder = New System.Windows.Forms.Button()
+        Me.btnLocateMoveToFolder = New System.Windows.Forms.Button()
+        Me.txtMoveToFolder = New System.Windows.Forms.TextBox()
+        Me.btnLocateFolder2 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtFolder2 = New System.Windows.Forms.TextBox()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -114,14 +125,14 @@ Partial Class MainForm
         Me.boxIndexSearch.SuspendLayout()
         Me.SuspendLayout()
         '
-        'btnLocateFolder
+        'btnLocateFolder1
         '
-        Me.btnLocateFolder.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnLocateFolder.Location = New System.Drawing.Point(198, 6)
-        Me.btnLocateFolder.Name = "btnLocateFolder"
-        Me.btnLocateFolder.Size = New System.Drawing.Size(44, 21)
-        Me.btnLocateFolder.TabIndex = 2
-        Me.btnLocateFolder.Text = "Folder"
+        Me.btnLocateFolder1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnLocateFolder1.Location = New System.Drawing.Point(198, 6)
+        Me.btnLocateFolder1.Name = "btnLocateFolder1"
+        Me.btnLocateFolder1.Size = New System.Drawing.Size(44, 21)
+        Me.btnLocateFolder1.TabIndex = 2
+        Me.btnLocateFolder1.Text = "Folder"
         '
         'btnListFiles
         '
@@ -142,14 +153,14 @@ Partial Class MainForm
         Me.lblFolder.TabIndex = 0
         Me.lblFolder.Text = "Folder"
         '
-        'txtFolder
+        'txtFolder1
         '
-        Me.txtFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.txtFolder1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtFolder.Location = New System.Drawing.Point(43, 7)
-        Me.txtFolder.Name = "txtFolder"
-        Me.txtFolder.Size = New System.Drawing.Size(149, 20)
-        Me.txtFolder.TabIndex = 1
+        Me.txtFolder1.Location = New System.Drawing.Point(43, 7)
+        Me.txtFolder1.Name = "txtFolder1"
+        Me.txtFolder1.Size = New System.Drawing.Size(149, 20)
+        Me.txtFolder1.TabIndex = 1
         '
         'btnExit
         '
@@ -189,12 +200,23 @@ Partial Class MainForm
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnLocateFolder2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.Label1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtFolder2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnLocateMoveToFolder)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtMoveToFolder)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnMoveToFolder)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnReadProps)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblExt2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtExt2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblExt1)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtExt1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lvwFiles)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnClearFiles)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnListFiles)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.btnLocateFolder)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnLocateFolder1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblFolder)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtFolder)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtFolder1)
         '
         'SplitContainer1.Panel2
         '
@@ -216,9 +238,9 @@ Partial Class MainForm
         Me.lvwFiles.FullRowSelect = True
         Me.lvwFiles.GridLines = True
         Me.lvwFiles.HideSelection = False
-        Me.lvwFiles.Location = New System.Drawing.Point(0, 35)
+        Me.lvwFiles.Location = New System.Drawing.Point(0, 133)
         Me.lvwFiles.Name = "lvwFiles"
-        Me.lvwFiles.Size = New System.Drawing.Size(333, 480)
+        Me.lvwFiles.Size = New System.Drawing.Size(333, 382)
         Me.lvwFiles.TabIndex = 5
         Me.lvwFiles.UseCompatibleStateImageBehavior = False
         Me.lvwFiles.View = System.Windows.Forms.View.Details
@@ -890,7 +912,105 @@ Partial Class MainForm
         Me.lblProgress.TabIndex = 1
         Me.lblProgress.Text = "Progress"
         '
-        'MainForm
+        'lblExt1
+        '
+        Me.lblExt1.AutoSize = True
+        Me.lblExt1.Location = New System.Drawing.Point(5, 66)
+        Me.lblExt1.Name = "lblExt1"
+        Me.lblExt1.Size = New System.Drawing.Size(28, 13)
+        Me.lblExt1.TabIndex = 6
+        Me.lblExt1.Text = "Ext1"
+        '
+        'txtExt1
+        '
+        Me.txtExt1.Location = New System.Drawing.Point(45, 63)
+        Me.txtExt1.Name = "txtExt1"
+        Me.txtExt1.Size = New System.Drawing.Size(48, 20)
+        Me.txtExt1.TabIndex = 7
+        Me.txtExt1.Text = "heic"
+        '
+        'lblExt2
+        '
+        Me.lblExt2.AutoSize = True
+        Me.lblExt2.Location = New System.Drawing.Point(99, 69)
+        Me.lblExt2.Name = "lblExt2"
+        Me.lblExt2.Size = New System.Drawing.Size(28, 13)
+        Me.lblExt2.TabIndex = 8
+        Me.lblExt2.Text = "Ext2"
+        '
+        'txtExt2
+        '
+        Me.txtExt2.Location = New System.Drawing.Point(133, 62)
+        Me.txtExt2.Name = "txtExt2"
+        Me.txtExt2.Size = New System.Drawing.Size(61, 20)
+        Me.txtExt2.TabIndex = 9
+        Me.txtExt2.Text = "mov"
+        '
+        'btnReadProps
+        '
+        Me.btnReadProps.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReadProps.Location = New System.Drawing.Point(221, 64)
+        Me.btnReadProps.Name = "btnReadProps"
+        Me.btnReadProps.Size = New System.Drawing.Size(94, 21)
+        Me.btnReadProps.TabIndex = 10
+        Me.btnReadProps.Text = "Read Props"
+        Me.btnReadProps.UseVisualStyleBackColor = True
+        '
+        'btnMoveToFolder
+        '
+        Me.btnMoveToFolder.Location = New System.Drawing.Point(8, 98)
+        Me.btnMoveToFolder.Name = "btnMoveToFolder"
+        Me.btnMoveToFolder.Size = New System.Drawing.Size(102, 21)
+        Me.btnMoveToFolder.TabIndex = 11
+        Me.btnMoveToFolder.Text = "Move Ext2 file to"
+        Me.btnMoveToFolder.UseVisualStyleBackColor = True
+        '
+        'btnLocateMoveToFolder
+        '
+        Me.btnLocateMoveToFolder.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnLocateMoveToFolder.Location = New System.Drawing.Point(271, 95)
+        Me.btnLocateMoveToFolder.Name = "btnLocateMoveToFolder"
+        Me.btnLocateMoveToFolder.Size = New System.Drawing.Size(44, 21)
+        Me.btnLocateMoveToFolder.TabIndex = 13
+        Me.btnLocateMoveToFolder.Text = "Folder"
+        '
+        'txtMoveToFolder
+        '
+        Me.txtMoveToFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtMoveToFolder.Location = New System.Drawing.Point(116, 96)
+        Me.txtMoveToFolder.Name = "txtMoveToFolder"
+        Me.txtMoveToFolder.Size = New System.Drawing.Size(149, 20)
+        Me.txtMoveToFolder.TabIndex = 12
+        '
+        'btnLocateFolder2
+        '
+        Me.btnLocateFolder2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnLocateFolder2.Location = New System.Drawing.Point(200, 34)
+        Me.btnLocateFolder2.Name = "btnLocateFolder2"
+        Me.btnLocateFolder2.Size = New System.Drawing.Size(44, 21)
+        Me.btnLocateFolder2.TabIndex = 16
+        Me.btnLocateFolder2.Text = "Folder"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(5, 38)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(36, 13)
+        Me.Label1.TabIndex = 14
+        Me.Label1.Text = "Folder"
+        '
+        'txtFolder2
+        '
+        Me.txtFolder2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtFolder2.Location = New System.Drawing.Point(45, 35)
+        Me.txtFolder2.Name = "txtFolder2"
+        Me.txtFolder2.Size = New System.Drawing.Size(149, 20)
+        Me.txtFolder2.TabIndex = 15
+        '
+        'AnalizeDuplicate
         '
         Me.AcceptButton = Me.btnExecute
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -900,7 +1020,7 @@ Partial Class MainForm
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.progressBar)
         Me.Controls.Add(Me.lblProgress)
-        Me.Name = "MainForm"
+        Me.Name = "AnalizeDuplicate"
         Me.Text = "My Photo Tools"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.SplitContainer1.Panel1.ResumeLayout(False)
@@ -930,78 +1050,89 @@ Partial Class MainForm
         Me.PerformLayout()
 
     End Sub
-    Friend WithEvents btnLocateFolder As System.Windows.Forms.Button
-   Friend WithEvents lblFolder As System.Windows.Forms.Label
-   Friend WithEvents txtFolder As System.Windows.Forms.TextBox
-   Friend WithEvents FolderBrowserDialog As System.Windows.Forms.FolderBrowserDialog
-   Friend WithEvents btnExit As System.Windows.Forms.Button
-   Friend WithEvents progressBar As System.Windows.Forms.ProgressBar
-   Friend WithEvents btnListFiles As Button
-   Friend WithEvents btnExecute As Button
-   Friend WithEvents SplitContainer1 As SplitContainer
-   Friend WithEvents lstLog As ListBox
-   Friend WithEvents TabMain As TabControl
-   Friend WithEvents tabAction As TabPage
-   Friend WithEvents boxRename As GroupBox
-   Friend WithEvents numRenameRemoveFinalCharacters As NumericUpDown
-   Friend WithEvents lblRenameRemoveFinalCharacters As Label
-   Friend WithEvents numRenameRemoveInitialCharacters As NumericUpDown
-   Friend WithEvents lblRenameRemoveInitialCharacters As Label
-   Friend WithEvents chkPreviewOnly As CheckBox
-   Friend WithEvents lblRenameMethod As Label
-   Friend WithEvents chkRenameConcatenateOriginalName As CheckBox
-   Friend WithEvents lblEventName As Label
-   Friend WithEvents cmbRenameMethod As ComboBox
-   Friend WithEvents txtEventName As TextBox
-   Friend WithEvents btnClearFiles As Button
-   Friend WithEvents lblProgress As Label
-   Friend WithEvents tabIndex As TabPage
-   Friend WithEvents btnIndexSearch As Button
-   Friend WithEvents dtpIndexSearchEndDate As DateTimePicker
-   Friend WithEvents dtpIndexSearchStartDate As DateTimePicker
-   Friend WithEvents txtIndexSearchWord3 As TextBox
-   Friend WithEvents txtIndexSearchWord2 As TextBox
-   Friend WithEvents txtIndexSearchWord1 As TextBox
-   Friend WithEvents lblIndexSearchKeyWords As Label
-   Friend WithEvents chkActionRenameFiles As CheckBox
-   Friend WithEvents boxMetadata As GroupBox
-   Friend WithEvents chkActionChangeDateTakenMetadata As CheckBox
-   Friend WithEvents lblChangeDateTakenIncreaseHours As Label
-   Friend WithEvents numChangeDateTakenIncreaseHours As NumericUpDown
-   Friend WithEvents rdbChangeDateTakenIncreasingHours As RadioButton
-   Friend WithEvents rdbChangeDateTakenToDateTimeInFileName As RadioButton
-   Friend WithEvents boxThunbnail As GroupBox
-   Friend WithEvents txtMaxHeight As TextBox
-   Friend WithEvents txtThumbnailMaxWidth As TextBox
-   Friend WithEvents lblThumbnailMaxWidth As Label
-   Friend WithEvents lblThumbnailMaxHeight As Label
-   Friend WithEvents btnThumbnailLocateFolder As Button
-   Friend WithEvents txtThumbnailDestinationFolder As TextBox
-   Friend WithEvents lblThumbnailDestinationFolder As Label
-   Friend WithEvents chkActionGenerateThumbnail As CheckBox
-   Friend WithEvents chkActionChangeFileDate As CheckBox
-   Friend WithEvents pctPreview As PictureBox
-   Friend WithEvents rdbIndexSearchOperator2Or As RadioButton
-   Friend WithEvents rdbIndexSearchOperator2And As RadioButton
-   Friend WithEvents rdbIndexSearchOperator1Or As RadioButton
-   Friend WithEvents rdbIndexSearchOperator1And As RadioButton
-   Friend WithEvents boxIndex As GroupBox
-   Friend WithEvents txtIndexDescription As TextBox
-   Friend WithEvents dtpIndexDate As DateTimePicker
-   Friend WithEvents lblIndexDate As Label
-   Friend WithEvents lblIndexDescription As Label
-   Friend WithEvents chkActionIndex As CheckBox
-   Friend WithEvents rdbIndexSaveMetadata As RadioButton
-   Friend WithEvents rdbIndexSalveDotFotFile As RadioButton
-   Friend WithEvents boxIndexSearch As GroupBox
-   Friend WithEvents btnIndexUpdateMasterIndex As Button
-   Friend WithEvents lblChangeDateTakenKeepOriginalTime As Label
-   Friend WithEvents dtpChangeDateTakenToSpecificDate As DateTimePicker
-   Friend WithEvents rdbChangeDateTakenToSpecificDateAndOriginalTime As RadioButton
-   Friend WithEvents lvwFiles As ListView
-   Friend WithEvents dtpChangeDateTakenTime As DateTimePicker
+    Friend WithEvents btnLocateFolder1 As System.Windows.Forms.Button
+    Friend WithEvents lblFolder As System.Windows.Forms.Label
+    Friend WithEvents txtFolder1 As System.Windows.Forms.TextBox
+    Friend WithEvents FolderBrowserDialog As System.Windows.Forms.FolderBrowserDialog
+    Friend WithEvents btnExit As System.Windows.Forms.Button
+    Friend WithEvents progressBar As System.Windows.Forms.ProgressBar
+    Friend WithEvents btnListFiles As Button
+    Friend WithEvents btnExecute As Button
+    Friend WithEvents SplitContainer1 As SplitContainer
+    Friend WithEvents lstLog As ListBox
+    Friend WithEvents TabMain As TabControl
+    Friend WithEvents tabAction As TabPage
+    Friend WithEvents boxRename As GroupBox
+    Friend WithEvents numRenameRemoveFinalCharacters As NumericUpDown
+    Friend WithEvents lblRenameRemoveFinalCharacters As Label
+    Friend WithEvents numRenameRemoveInitialCharacters As NumericUpDown
+    Friend WithEvents lblRenameRemoveInitialCharacters As Label
+    Friend WithEvents chkPreviewOnly As CheckBox
+    Friend WithEvents lblRenameMethod As Label
+    Friend WithEvents chkRenameConcatenateOriginalName As CheckBox
+    Friend WithEvents lblEventName As Label
+    Friend WithEvents cmbRenameMethod As ComboBox
+    Friend WithEvents txtEventName As TextBox
+    Friend WithEvents btnClearFiles As Button
+    Friend WithEvents lblProgress As Label
+    Friend WithEvents tabIndex As TabPage
+    Friend WithEvents btnIndexSearch As Button
+    Friend WithEvents dtpIndexSearchEndDate As DateTimePicker
+    Friend WithEvents dtpIndexSearchStartDate As DateTimePicker
+    Friend WithEvents txtIndexSearchWord3 As TextBox
+    Friend WithEvents txtIndexSearchWord2 As TextBox
+    Friend WithEvents txtIndexSearchWord1 As TextBox
+    Friend WithEvents lblIndexSearchKeyWords As Label
+    Friend WithEvents chkActionRenameFiles As CheckBox
+    Friend WithEvents boxMetadata As GroupBox
+    Friend WithEvents chkActionChangeDateTakenMetadata As CheckBox
+    Friend WithEvents lblChangeDateTakenIncreaseHours As Label
+    Friend WithEvents numChangeDateTakenIncreaseHours As NumericUpDown
+    Friend WithEvents rdbChangeDateTakenIncreasingHours As RadioButton
+    Friend WithEvents rdbChangeDateTakenToDateTimeInFileName As RadioButton
+    Friend WithEvents boxThunbnail As GroupBox
+    Friend WithEvents txtMaxHeight As TextBox
+    Friend WithEvents txtThumbnailMaxWidth As TextBox
+    Friend WithEvents lblThumbnailMaxWidth As Label
+    Friend WithEvents lblThumbnailMaxHeight As Label
+    Friend WithEvents btnThumbnailLocateFolder As Button
+    Friend WithEvents txtThumbnailDestinationFolder As TextBox
+    Friend WithEvents lblThumbnailDestinationFolder As Label
+    Friend WithEvents chkActionGenerateThumbnail As CheckBox
+    Friend WithEvents chkActionChangeFileDate As CheckBox
+    Friend WithEvents pctPreview As PictureBox
+    Friend WithEvents rdbIndexSearchOperator2Or As RadioButton
+    Friend WithEvents rdbIndexSearchOperator2And As RadioButton
+    Friend WithEvents rdbIndexSearchOperator1Or As RadioButton
+    Friend WithEvents rdbIndexSearchOperator1And As RadioButton
+    Friend WithEvents boxIndex As GroupBox
+    Friend WithEvents txtIndexDescription As TextBox
+    Friend WithEvents dtpIndexDate As DateTimePicker
+    Friend WithEvents lblIndexDate As Label
+    Friend WithEvents lblIndexDescription As Label
+    Friend WithEvents chkActionIndex As CheckBox
+    Friend WithEvents rdbIndexSaveMetadata As RadioButton
+    Friend WithEvents rdbIndexSalveDotFotFile As RadioButton
+    Friend WithEvents boxIndexSearch As GroupBox
+    Friend WithEvents btnIndexUpdateMasterIndex As Button
+    Friend WithEvents lblChangeDateTakenKeepOriginalTime As Label
+    Friend WithEvents dtpChangeDateTakenToSpecificDate As DateTimePicker
+    Friend WithEvents rdbChangeDateTakenToSpecificDateAndOriginalTime As RadioButton
+    Friend WithEvents lvwFiles As ListView
+    Friend WithEvents dtpChangeDateTakenTime As DateTimePicker
     Friend WithEvents chkChangeFileDateAppend2InRepeated As CheckBox
     Friend WithEvents chkChangeFileDateAppend2NewFile As RadioButton
-   Friend WithEvents chkChangeFileDateAppend2ExistingFile As RadioButton
-   Friend WithEvents chkChangeTimeFile As CheckBox
+    Friend WithEvents chkChangeFileDateAppend2ExistingFile As RadioButton
+    Friend WithEvents chkChangeTimeFile As CheckBox
+    Friend WithEvents lblExt2 As Label
+    Friend WithEvents txtExt2 As TextBox
+    Friend WithEvents lblExt1 As Label
+    Friend WithEvents txtExt1 As TextBox
+    Friend WithEvents btnReadProps As Button
+    Friend WithEvents btnLocateMoveToFolder As Button
+    Friend WithEvents txtMoveToFolder As TextBox
+    Friend WithEvents btnMoveToFolder As Button
+    Friend WithEvents btnLocateFolder2 As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents txtFolder2 As TextBox
 End Class
