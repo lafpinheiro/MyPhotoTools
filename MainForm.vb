@@ -578,12 +578,11 @@ Public Class MainForm
         'https://social.msdn.microsoft.com/Forums/vstudio/en-US/71d8de37-f52d-4faa-887a-793f8041110a/managing-general-exif-info-with-imagesetpropertyitem?forum=netfxbcl
         'http://dejanstojanovic.net/aspnet/2014/november/adding-extra-info-to-an-image-file/
 
-        Dim strNewName As String = ""
         Dim strPath As String = strFile.Substring(0, strFile.LastIndexOf("\"))
         Dim strName As String = strFile.Substring(strFile.LastIndexOf("\") + 1)
         Dim strExtension As String = strName.Substring(strName.LastIndexOf(".") + 1, strName.Length - strName.LastIndexOf(".") - 1)
         strName = strName.Substring(0, strName.Length - strExtension.Length - 1)
-        strNewName = strPath + "\" + strName + "_2." + strExtension
+        Dim strNewName As String = strPath + "\" + strName + "_2." + strExtension
         Dim strNewDate As String = ""
 
         If intChangeDateTakenMethod = ChangeDateTakenMetadataMethod.FromFileName Then

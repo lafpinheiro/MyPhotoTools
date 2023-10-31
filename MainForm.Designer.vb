@@ -710,6 +710,8 @@ Partial Class MainForm
         'numChangeDateTakenIncreaseHours
         '
         Me.numChangeDateTakenIncreaseHours.Location = New System.Drawing.Point(104, 39)
+        Me.numChangeDateTakenIncreaseHours.Maximum = New Decimal(New Integer() {23, 0, 0, 0})
+        Me.numChangeDateTakenIncreaseHours.Minimum = New Decimal(New Integer() {23, 0, 0, -2147483648})
         Me.numChangeDateTakenIncreaseHours.Name = "numChangeDateTakenIncreaseHours"
         Me.numChangeDateTakenIncreaseHours.Size = New System.Drawing.Size(40, 20)
         Me.numChangeDateTakenIncreaseHours.TabIndex = 4
